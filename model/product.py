@@ -1,29 +1,10 @@
 from dataclasses import dataclass
 
+from model.dimension import Dimensions
+from model.meta import Meta
+from model.review import Review
 
 @dataclass
-class Dimensions:
-    width: int
-    height: int
-    depth: int
-
-@dataclass
-class Meta:
-    createdAt : str
-    updatedAt : str
-    barcode : str
-    qrCode : str
-
-@dataclass
-class Review:
-    rating : int
-    comment : str
-    date : str
-    reviewerName : str
-    reviewerEmail : str
-
-
-
 class Product:
     id : str
     title : str
@@ -47,4 +28,5 @@ class Product:
     meta : Meta
     images : [str]
     thumbnail : str
+
 
