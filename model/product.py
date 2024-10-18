@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 
 from model.dimension import Dimensions
 from model.meta import Meta
@@ -14,19 +15,19 @@ class Product:
     discountPercentage : float
     rating : float
     stock : int
-    tags : [str]
-    brand : str
+    tags : List[str]
     sku : str
     weight : float
     dimensions : Dimensions
     warrantyInformation : str
     shippingInformation : str
     availabilityStatus : str
-    reviews: [Review]
+    reviews: List[Review]
     returnPolicy: str
     minimumOrderQuantity : int
     meta : Meta
-    images : [str]
+    images : List[str]
     thumbnail : str
+    brand: str = None
 
 
