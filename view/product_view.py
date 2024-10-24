@@ -11,8 +11,8 @@ root.title("Tkinter API layout")
 root.maxsize(1100, 800)
 root.config(bg="skyblue")
 
-current_index = 0
 
+product.id = 0
 
 print(product)
 def show_description():
@@ -61,9 +61,14 @@ def show_all():
 
 
 def show_reviews():
+    i=5
     for review in product.reviews:
-        review = product.reviews
-    ttk.Label(right_frame, text=review).grid(row=5, column=0, padx=5, pady=5)
+        review = str( f"  - Rating: {review.rating}\n" 
+                      f" Comment: {review.comment}\n" 
+                      f" Date: {review.date}\n" 
+                      f"Reviewer: {review.reviewerName}, Email: {review.reviewerEmail}")
+        ttk.Label(right_frame, text=review).grid(row=i, column=0, padx=5, pady=5)
+        i+=1
 
 def destroy_all():
     global right_frame
@@ -76,25 +81,27 @@ def destroy_all():
 
 
 def show_product(index):
-    global current_index
-    current_index = index
-    product.show_product(index)
+
+    print("hola soy producto")
+
 
 def show_previous():
-    global current_index
-    print(product.current_index)
-    if product.current_index > 0:
-        product.current_index -= 1
-        product.show_product(product.current_index)
-
-
-
+    if product.id > 0:
+        product.id -= 1
+        print(product.id)
+        #product.show_product(product.id)
+    else:
+        product.id = len(Product_list.products) - 1
+        print(product.id)
 def show_next():
-    global current_index
-    print(product.current_index)
-    if product.current_index < len(product.products) - 1:
-        product.current_index += 1
-        product.show_product(product.current_index)
+    if product.id < len(Product_list.products) - 1:
+        product.id += 1
+        print(product.id)
+        #product.show_product(product.id)
+    else:
+        product.id = 0
+        print(product.id)
+        #product.show_product(product.id)
 
 
 
