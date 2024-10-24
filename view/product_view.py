@@ -1,4 +1,6 @@
+import io
 import tkinter as tk
+import urllib.request
 from tkinter import ttk, Label
 import requests
 from PIL import ImageTk, Image
@@ -83,7 +85,12 @@ def destroy_all():
     right_frame.config(width=5,height=5)
     ttk.Label(right_frame, ).grid(row=0, column=0, padx=5, pady=5)
 
-
+def ImgFromUrl(url):
+    with urllib.request.urlopen(url) as connection:
+        raw_data = connection.read()
+    im = Image.open(io.BytesIO(raw_data))
+    image = ImageTk.PhotoImage(im)
+    return image
 
 
 def show_product(index):
@@ -98,19 +105,20 @@ def show_product(index):
     title = Product_list.products[index].title
     ttk.Label(product_frame, text=title).grid(row=0, column=0, padx=5, pady=5)
 
-
     r = requests.get(Product_list.products[index].thumbnail, stream=True) # Descarga la foto, bloquea el proceso hasta que termina
-
-    image = Image.open(r.raw)  # Cargo los bits en formato imagen
-
+    image = Image.open(r.raw).resize((280,280))  # Cargo los bits en formato imagen
     image_ttk = ImageTk.PhotoImage(image)  # Lo convierto a imagen tkinter (para poderse usar en un label por ejemplo)
-    print(image_ttk)
-    ttk.Label(product_frame, image=image_ttk).grid(row=1, column=0, padx=5, pady=5)
+
+    img_label = ttk.Label(product_frame, image=image_ttk)
+    img_label.grid(row=1, column=0, padx=5, pady=5)
+    img_label.config(image=image_ttk)
+    img_label.image = image_ttk
 
     tool_bar = tk.Frame(product_frame, width=220, height=325)
     tool_bar.grid(row=2, column=0, padx=5, pady=5)
 
     ttk.Button(tool_bar, text="Anterior", command=show_previous).grid(row=0, column=0, padx=5, pady=3, ipadx=10)
+    ttk.Entry(tool_bar, textvariable=product.title).grid(row=0, column=1, padx=5, pady=3, ipadx=10)
     ttk.Button(tool_bar, text="Siguiente", command=show_next).grid(row=0, column=2, padx=5, pady=3, ipadx=10)
 
     ttk.Button(tool_bar, text="Descripción", command=show_description).grid(row=1, column=1, padx=5, pady=5)
@@ -127,7 +135,7 @@ def show_product(index):
 
     ttk.Button(tool_bar, text="Limpiar todo", command=destroy_all).grid(row=7, column=1, padx=5, pady=5)
 
-    ttk.Label(right_frame, ).grid(row=0, column=0, padx=5, pady=5)
+    ttk.Label(right_frame).grid(row=0, column=0, padx=5, pady=5)
 
 
 def show_previous():
