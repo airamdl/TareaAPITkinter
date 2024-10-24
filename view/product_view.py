@@ -1,7 +1,7 @@
 import io
 import tkinter as tk
 import urllib.request
-from tkinter import ttk, Label
+from tkinter import ttk, Label, Button
 import requests
 from PIL import ImageTk, Image
 from main import product
@@ -96,6 +96,23 @@ def ImgFromUrl(url):
 def show_product(index):
     global right_frame
 
+    #Revisar esto
+    img_path = "test.jpg"
+    image = Image.open(img_path)
+    img1 = ImageTk.PhotoImage(image)
+
+    style = ttk.Style()
+    style.map(
+        "Data.TButton",
+        foreground=[("pressed", "!disabled", "green"), ("active", "white")],
+        background=[("pressed", "!disabled", "black"), ("active", "skyblue")],
+    )
+    style.map(
+        "Search.Button",
+        image=[("disabled", img1), ("pressed", "!disabled", img1), ("active", img1)]
+
+    )
+
     product_frame = tk.Frame(root, width=300, height=400, bg='grey')
     product_frame.grid(row=0, column=0, padx=10, pady=5)
 
@@ -117,23 +134,30 @@ def show_product(index):
     tool_bar = tk.Frame(product_frame, width=220, height=325)
     tool_bar.grid(row=2, column=0, padx=5, pady=5)
 
-    ttk.Button(tool_bar, text="Anterior", command=show_previous).grid(row=0, column=0, padx=5, pady=3, ipadx=10)
+#Revisar entry y button
+    ttk.Button(tool_bar, text="Anterior", style="Data.TButton",command=show_previous).grid(row=0, column=0, padx=5, pady=3, ipadx=10)
+
     ttk.Entry(tool_bar, textvariable=product.title).grid(row=0, column=1, padx=5, pady=3, ipadx=10)
-    ttk.Button(tool_bar, text="Siguiente", command=show_next).grid(row=0, column=2, padx=5, pady=3, ipadx=10)
+    but=    ttk.Button(tool_bar,text="", style="Search.Button")
+    but.grid(row=0, column=2, padx=5, pady=3, ipadx=10)
 
-    ttk.Button(tool_bar, text="Descripción", command=show_description).grid(row=1, column=1, padx=5, pady=5)
+    ttk.Button(tool_bar, text="Siguiente", style="Data.TButton",command=show_next).grid(row=0, column=3, padx=5, pady=3, ipadx=10)
 
-    ttk.Button(tool_bar, text="Precio", command=show_price).grid(row=2, column=1, padx=5, pady=5)
 
-    ttk.Button(tool_bar, text="Stock", command=show_stock).grid(row=3, column=1, padx=5, pady=5)
 
-    ttk.Button(tool_bar, text="Información de envio", command=show_ship_info).grid(row=4, column=1, padx=5, pady=5)
+    ttk.Button(tool_bar, text="Descripción",style="Data.TButton", command=show_description).grid(row=1, column=1, padx=5, pady=5)
 
-    ttk.Button(tool_bar, text="Toda la información", command=show_all).grid(row=5, column=1, padx=5, pady=5)
+    ttk.Button(tool_bar, text="Precio", style="Data.TButton",command=show_price).grid(row=2, column=1, padx=5, pady=5)
+
+    ttk.Button(tool_bar, text="Stock", style="Data.TButton",command=show_stock).grid(row=3, column=1, padx=5, pady=5)
+
+    ttk.Button(tool_bar, text="Información de envio", style="Data.TButton",command=show_ship_info).grid(row=4, column=1, padx=5, pady=5)
+
+    ttk.Button(tool_bar, text="Toda la información", style="Data.TButton",command=show_all).grid(row=5, column=1, padx=5, pady=5)
 
     #ttk.Button(tool_bar, text="Reseñas", command=show_reviews(index)).grid(row=6, column=1, padx=5, pady=5)
 
-    ttk.Button(tool_bar, text="Limpiar todo", command=destroy_all).grid(row=7, column=1, padx=5, pady=5)
+    ttk.Button(tool_bar, text="Limpiar todo",style="Data.TButton", command=destroy_all).grid(row=7, column=1, padx=5, pady=5)
 
     ttk.Label(right_frame).grid(row=0, column=0, padx=5, pady=5)
 
@@ -170,55 +194,6 @@ root.config(bg="skyblue")
 
 
 show_product(product.id)
-
-# product_frame = tk.Frame(root, width=300, height=400, bg='grey')
-# product_frame.grid(row=0, column=0, padx=10, pady=5)
-#
-# right_frame = tk.Frame(root, width=650, height=400, bg='grey')
-# right_frame.grid(row=0, column=1, padx=10, pady=5)
-#
-# title = product.title
-# ttk.Label(product_frame, text=title).grid(row=0, column=0, padx=5, pady=5)
-#
-# r = requests.get(product.thumbnail, stream=True) # Descarga la foto, bloquea el proceso hasta que termina
-# image = Image.open(r.raw) # Cargo los bits en formato imagen
-# image_ttk = ImageTk.PhotoImage(image) # Lo convierto a imagen tkinter (para poderse usar en un label por ejemplo)
-#
-# ttk.Label(product_frame, image=image_ttk).grid(row=1, column=0, padx=5, pady=5)
-#
-#
-#
-# tool_bar = tk.Frame(product_frame, width=220, height=325)
-# tool_bar.grid(row=2, column=0, padx=5, pady=5)
-#
-# ttk.Button(tool_bar, text="Anterior", command=show_previous).grid(row=0, column=0, padx=5, pady=3, ipadx=10)
-# ttk.Button(tool_bar, text="Siguiente", command=show_next).grid(row=0, column=2, padx=5, pady=3, ipadx=10)
-#
-#
-# ttk.Button(tool_bar, text="Descripción", command=show_description).grid(row=1, column=1, padx=5, pady=5)
-#
-#
-# ttk.Button(tool_bar, text="Precio",command=show_price).grid(row=2, column=1, padx=5, pady=5)
-#
-#
-#
-# ttk.Button(tool_bar, text="Stock",command=show_stock).grid(row=3, column=1, padx=5, pady=5)
-#
-#
-#
-# ttk.Button(tool_bar, text="Información de envio", command=show_ship_info).grid(row=4, column=1, padx=5, pady=5)
-#
-#
-#
-# ttk.Button(tool_bar, text="Toda la información", command=show_all).grid(row=5, column=1, padx=5, pady=5)
-#
-#
-#
-# ttk.Button(tool_bar, text="Reseñas",command=show_reviews).grid(row=6, column=1, padx=5, pady=5)
-#
-# ttk.Button(tool_bar, text="Limpiar todo",command=destroy_all).grid(row=7, column=1, padx=5, pady=5)
-#
-# ttk.Label(right_frame,).grid(row=0,column=0, padx=5, pady=5)
 
 
 
